@@ -1,0 +1,6 @@
+- What is a transaction?
+    Every transfer of value or execution of a smart contract that writes up something to the blockchain and changing the status of the blockchain is considered a transaction
+- What is the approximate time of every Ethereum transaction?
+    from 15 seconds to 10/15 minutes
+- What is a node?
+    Each computer that runs a specific software that verifies and combines transactions
