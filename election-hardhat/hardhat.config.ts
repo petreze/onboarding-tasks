@@ -11,7 +11,7 @@ export default config; */
 
 module.exports = {
   solidity: {
-    version: "0.8.9",
+    version: "0.8.0",
     settings: {
       optimizer: {
         enabled: true,
@@ -26,26 +26,22 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK"
+    apiKey: {
+      rinkeby: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK",
+    }
   },  
 };
 
 
-task("deploy", "Deploys contract on a provided network")
+task("deploy-testnets", "Deploys contract on a provided network")
     .setAction(async () => {
-        const deployElectionContract = require("./scripts/deploy-task");
+        const deployElectionContract = require("./scripts/deploy-testnets");
         await deployElectionContract();
 });
 
-task("print", "Prints a message")
-    .addParam("message", "The message to print")
-    .setAction(async (taskArgs) => {
-      console.log(taskArgs.message);
-});
-
 task("deploy-param", "Deploys contract on a provided network")
-.addParam("privateKey", "Please provide the private key")
-.setAction(async ({privateKey}) => {
-    const deployElectionContract = require("./scripts/deploy-with-param-task");
-    await deployElectionContract(privateKey);
+    .addParam("privateKey", "Please provide the private key")
+    .setAction(async ({privateKey}) => {
+      const deployElectionContract = require("./scripts/deploy-with-param-task");
+      await deployElectionContract(privateKey);
 });

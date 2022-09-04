@@ -16,6 +16,13 @@ async function deployElectionContract() {
     await usElectionContract.deployed();
 
     console.log('USElection Contract address: ', usElectionContract.address);
+    /* setTimeout(() => {
+        console.log("Delayed for 1 second.");
+      }, 20000)
+    await hre.run("verify:verify", {
+        address: usElectionContract.address,
+    }) */
+
     console.log('Done!');
 }
   

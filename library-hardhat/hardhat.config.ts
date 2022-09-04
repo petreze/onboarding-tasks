@@ -1,20 +1,13 @@
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 
-const config: HardhatUserConfig = {
+/* const config: HardhatUserConfig = {
   solidity: "0.8.0",
 };
 
-export default config;
+export default config; */
 
-
-/* module.exports = {
-  networks: {
-    rinkeby: {
-      url: "https://rinkeby.infura.io/v3/3fb91f45937843c4b9e4b90deaad6ff3",
-      accounts: ['3fb91f45937843c4b9e4b90deaad6ff3']
-    }
-  },
+module.exports = {
   solidity: {
     version: "0.8.0",
     settings: {
@@ -24,4 +17,13 @@ export default config;
       },
     },
   },
-}; */
+  networks: {
+    rinkeby: {
+      url: "https://rinkeby.infura.io/v3/cbd7a030c41f474ead18fed833b6acab",
+      accounts: ['b8d0a4e0592db1c3e01de62ffc39915de38acc4d41b2e2331dcd4eb733d4973f']
+    }
+  },
+  etherscan: {
+    apiKey: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK"
+  },  
+};
