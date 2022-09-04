@@ -1,5 +1,8 @@
-import { HardhatUserConfig } from "hardhat/config";
+import { HardhatUserConfig, task, subtask } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
+import "solidity-coverage";
+import "@nomiclabs/hardhat-etherscan";
+
 
 /* const config: HardhatUserConfig = {
   solidity: "0.8.0",
@@ -27,3 +30,16 @@ module.exports = {
     apiKey: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK"
   },  
 };
+
+task("deploy", "Deploys contract on a provided network")
+    .setAction(async () => {
+        const deployLibraryContract = require("./scripts/deploy");
+        await deployLibraryContract();
+});
+
+subtask("print", "Prints useful information")
+    .addParam("address", "The address of the contract after deployment")
+    .setAction(async (taskArgs) => {
+      console.log(`Library Contract address: ${taskArgs.address}`);
+      console.log('Deployment successfull!');
+    });

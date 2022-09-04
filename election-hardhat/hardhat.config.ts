@@ -3,6 +3,7 @@ import "@nomicfoundation/hardhat-toolbox";
 import "solidity-coverage";
 import "@nomiclabs/hardhat-etherscan";
 
+
 /* const config: HardhatUserConfig = {
   solidity: "0.8.0",
 };
@@ -26,9 +27,7 @@ module.exports = {
     }
   },
   etherscan: {
-    apiKey: {
-      rinkeby: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK",
-    }
+    apiKey: "ZP5RNZM5HNIMDKYX2QYAAXS8CSU3644CPK",
   },  
 };
 

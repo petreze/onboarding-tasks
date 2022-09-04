@@ -1,6 +1,3 @@
-/* const hre = require('hardhat')
-const ethers = hre.ethers; */
-
 import { ethers } from "hardhat";
 
 async function deployElectionContract() {

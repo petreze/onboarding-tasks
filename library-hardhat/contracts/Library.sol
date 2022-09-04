@@ -1,11 +1,13 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.0;
 pragma abicoder v2;
-import "./Ownable.sol";
+
+//import "./Ownable.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Library is Ownable {
     
-    event newBook(uint bookId, string bookName, uint8 numberOfCopies);
+    event NewBook(uint bookId, string bookName, uint8 numberOfCopies);
     
     mapping (uint => address) bookToUser;
     mapping (uint => address[]) bookToAddresses;
@@ -17,10 +19,10 @@ contract Library is Ownable {
     
     Book[] public books;
     
-    function addBook(string memory _bookName, uint8 _numberOfCopies) internal onlyOwner {
+    function addBook(string calldata _bookName, uint8 _numberOfCopies) internal onlyOwner {
         books.push(Book(_bookName, _numberOfCopies));
         uint id = books.length;
-        emit newBook(id, _bookName, _numberOfCopies);
+        emit NewBook(id, _bookName, _numberOfCopies);
     }
     
     function getAvailableBooks() external view returns(uint[] memory) {
