@@ -32,7 +32,7 @@ module.exports = {
 };
 
 
-task("deploy-testnets", "Deploys contract on a provided network")
+task("deploy", "Deploys contract on a provided network")
     .setAction(async () => {
         const deployElectionContract = require("./scripts/deploy-testnets");
         await deployElectionContract();

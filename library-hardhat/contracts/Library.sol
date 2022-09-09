@@ -53,7 +53,7 @@ contract Library is Ownable {
     }
     
     function returnBook(uint _bookId) external onlyBorrower(_bookId) {
-        //TODO remove the book from the mapping
+        delete(bookToUser[_bookId]);
         books[_bookId].numberOfCopies++;
     }
     
