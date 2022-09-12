@@ -19,31 +19,35 @@ contract Library is Ownable {
     
     Book[] public books;
     
-    function addBook(string calldata _bookName, uint8 _numberOfCopies) internal onlyOwner {
-        books.push(Book(_bookName, _numberOfCopies));
-        uint id = books.length;
-        emit NewBook(id, _bookName, _numberOfCopies);
-    }
-    
-    function getAvailableBooks() external view returns(uint[] memory) {
-        uint[] memory result = new uint[](books.length);
-        uint counter = 0;
-        
-        for (uint i = 0; i < books.length; i++) {
-            result[counter] = i;
-            counter++;
-        }
-        return result;
-    }
-    
     modifier atLeastOneCopy(uint _bookId) {
         require(books[_bookId].numberOfCopies > 0);
         _;
     }
     
-    modifier onlyBorrower(uint _bookId) {
-        require(msg.sender == bookToUser[_bookId]);
+    modifier ifBorrowed(uint _bookId) {
+        require(msg.sender == bookToUser[_bookId], "This book is already taken!");
         _;
+    }
+
+    function addBook(string calldata _bookName, uint8 _numberOfCopies) external onlyOwner {
+        books.push(Book(_bookName, _numberOfCopies));
+        uint id = books.length;
+        emit NewBook(id, _bookName, _numberOfCopies);
+    }
+    
+    function getAvailableBooks() external view returns(string[] memory) {
+        string[] memory result = new string[](books.length);
+        uint counter = 0;
+        
+        for (uint i = 0; i < books.length; i++) {
+            result[counter] = books[counter].name;
+            counter++;
+        }
+        return result;
+    }
+
+    function isBorrowedByCaller(uint _bookId) external view onlyOwner returns (bool) {
+        return (bookToUser[_bookId] == msg.sender) ? true : false;
     }
     
     function borrowBook(uint _bookId) external atLeastOneCopy(_bookId) {
@@ -52,9 +56,13 @@ contract Library is Ownable {
         books[_bookId].numberOfCopies--;
     }
     
-    function returnBook(uint _bookId) external onlyBorrower(_bookId) {
+    function returnBook(uint _bookId) external ifBorrowed(_bookId) {
         delete(bookToUser[_bookId]);
         books[_bookId].numberOfCopies++;
+    }
+
+    function getBookAvailability(uint _bookId) external view onlyOwner returns(uint8) {
+        return books[_bookId].numberOfCopies;
     }
     
     function viewAllPeopleBorrowedABook(uint _bookId) public view returns(address[] memory) {

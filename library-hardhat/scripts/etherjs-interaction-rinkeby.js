@@ -1,10 +1,9 @@
 const hre = require("hardhat");
-const USElection = require('../../election-hardhat/artifacts/contracts/USElection.sol/USElection.json')
-const Library = require('../../library-hardhat/artifacts/contracts/Library.sol/Library.json')
+const Library = require('../artifacts/contracts/Library.sol/Library.json')
 
 
 const run = async function() {
-	const provider = new hre.ethers.providers.JsonRpcProvider("http://127.0.0.1:8545")
+	const provider = new hre.ethers.providers.InfuraProvider("rinkeby", "b8d0a4e0592db1c3e01de62ffc39915de38acc4d41b2e2331dcd4eb733d4973f")
 	const latestBlock = await provider.getBlock("latest")
 	console.log(latestBlock.hash)
 
@@ -16,49 +15,7 @@ const run = async function() {
 	const balance = await wallet.getBalance();
 	console.log(hre.ethers.utils.formatEther(balance, 18));
 
-	const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
-	const electionContract = new hre.ethers.Contract(contractAddress, USElection.abi, wallet)
-	console.log(electionContract)
-
-
-	//query contract's method
-	const hasEnded = await electionContract.electionEnded()
-	console.log("The election has ended:", hasEnded)
-
-	const haveResultsForOhio = await electionContract.resultsSubmitted("Ohio")
-	console.log("Have results for Ohio:", haveResultsForOhio)
-
-
-	// submit transaction
-	const transactionOhio = await electionContract.submitStateResult(["Ohio", 250, 150, 24]);
-	const transactionReceipt = await transactionOhio.wait();
-	if (transactionReceipt.status != 1) { // 1 means success
-		console.log("Transaction was not successful")
-		return 
-	}
-
-	const resultsSubmittedOhioNew = await electionContract.resultsSubmitted("Ohio")
-	console.log("Results submitted for Ohio", resultsSubmittedOhioNew)
-
-	const currentLeader = await electionContract.currentLeader()
-	console.log("Current leader", currentLeader)
-}
-
-
-const run2 = async function() {
-	const provider = new hre.ethers.providers.JsonRpcProvider("http://127.0.0.1:8545")
-	const latestBlock = await provider.getBlock("latest")
-	console.log(latestBlock.hash)
-
-
-	//init 'Wallet' instance providing
-	//the private key of the deployer (taken from the local node) and
-	//the 'Provider' instance which is initialized with the local node url
-	const wallet = new hre.ethers.Wallet("0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80", provider);
-	const balance = await wallet.getBalance();
-	console.log(hre.ethers.utils.formatEther(balance, 18));
-
-	const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3"
+	const contractAddress = "0x7A1B91be8De478C55188Edf854439AF750a1cb5d"
 	const libraryContract = new hre.ethers.Contract(contractAddress, Library.abi, wallet)
 	console.log(libraryContract)
 
@@ -101,8 +58,8 @@ const run2 = async function() {
 
 	//check if the caller has borrowed a book with id 0
 	//comparing his address to the zero address
-	const ifBorrowed = await libraryContract.isBorrowedByCaller(0)
-	console.log(`ifBorrowed: ${ifBorrowed}`);
+	const ifBorrowed = await libraryContract.bookToUser(0)
+	console.log(`ifBorrowed: ${ifBorrowed != 0x0000000000000000000000000000000000000000}`);
 
 	const availableBookAfterBorrow = await libraryContract.getBookAvailability(0);
 	console.log(`availability after borrow: ${availableBookAfterBorrow}`);
@@ -117,4 +74,4 @@ const run2 = async function() {
 	console.log(`availability after return: ${availableBookAfterReturn}`);
 }
 
-run2()
+run()
