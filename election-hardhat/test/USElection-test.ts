@@ -1,4 +1,4 @@
-const { expect } = require("chai");
+import { expect } from "chai";
 import { ethers } from "hardhat";
 import { USElection } from "../typechain-types";
 
@@ -9,6 +9,7 @@ const ethers = hre.ethers; */
 describe("USElection", function () {   
     let usElectionFactory;
     let usElection: USElection;
+    
     before(async () => {
         usElectionFactory = await ethers.getContractFactory("USElection");
         usElection = await usElectionFactory.deploy();
